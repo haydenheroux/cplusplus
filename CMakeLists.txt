@@ -4,3 +4,4 @@ project(LearnCPP)
 
 add_subdirectory(hello_world)
 add_subdirectory(calculator_numbers)
+add_subdirectory(project_generator)
