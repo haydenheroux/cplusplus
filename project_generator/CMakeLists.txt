@@ -1,1 +1,1 @@
-add_executable(project_generator main.cpp project.cpp)
+add_executable(project_generator main.cpp options.cpp project.cpp)

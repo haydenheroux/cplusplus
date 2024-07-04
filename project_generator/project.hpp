@@ -14,5 +14,3 @@ class project {
         void write_cmake_lists(std::filesystem::path& path);
         void write_main_cpp(std::filesystem::path& path);
 };
-
-

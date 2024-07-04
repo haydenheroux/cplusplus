@@ -48,4 +48,3 @@ void project::write_main_cpp(std::filesystem::path& path) {
     main_cpp << indent << "return 0;\n";
     main_cpp << "}";
 }
-
