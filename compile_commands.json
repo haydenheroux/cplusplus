@@ -1,0 +1,26 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-c",
+      "-o",
+      "CMakeFiles/project_generator.dir/main.o",
+      "/home/enya/cplusplus/project_generator/main.cpp"
+    ],
+    "directory": "/home/enya/cplusplus/build/project_generator",
+    "file": "/home/enya/cplusplus/project_generator/main.cpp",
+    "output": "/home/enya/cplusplus/build/project_generator/CMakeFiles/project_generator.dir/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-c",
+      "-o",
+      "CMakeFiles/project_generator.dir/project.o",
+      "/home/enya/cplusplus/project_generator/project.cpp"
+    ],
+    "directory": "/home/enya/cplusplus/build/project_generator",
+    "file": "/home/enya/cplusplus/project_generator/project.cpp",
+    "output": "/home/enya/cplusplus/build/project_generator/CMakeFiles/project_generator.dir/project.o"
+  }
+]
