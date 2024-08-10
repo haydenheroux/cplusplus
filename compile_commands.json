@@ -2,15 +2,13 @@
   {
     "arguments": [
       "/usr/bin/c++",
-      "-isystem",
-      "/usr/include/eigen3",
       "-c",
       "-o",
-      "CMakeFiles/linear_system.dir/main.o",
-      "/home/enya/cplusplus/linear_system/main.cpp"
+      "CMakeFiles/hello_world.dir/main.o",
+      "/home/enya/cplusplus/hello_world/main.cpp"
     ],
-    "directory": "/home/enya/cplusplus/build/linear_system",
-    "file": "/home/enya/cplusplus/linear_system/main.cpp",
-    "output": "/home/enya/cplusplus/build/linear_system/CMakeFiles/linear_system.dir/main.o"
+    "directory": "/home/enya/cplusplus/build/hello_world",
+    "file": "/home/enya/cplusplus/hello_world/main.cpp",
+    "output": "/home/enya/cplusplus/build/hello_world/CMakeFiles/hello_world.dir/main.o"
   }
 ]
