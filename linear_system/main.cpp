@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 
+inline constexpr double direction(double d) { return d / fabs(d); }
+
 int main() {
   const double kDt = 0.02;
 
@@ -17,32 +19,42 @@ int main() {
 
   const double error_tolerance = 1e-3;
   const double error_rate_tolerance = 1e-3;
-  PDController feedback{0.25, 0.0, kDt};
+  PDController feedback{0.267, 0.0, kDt};
 
-  const double kReferenceVelocity = 1500; // radians per second
+  const double kInitialVelocity = sim.GetVelocity();
+  const double kReferenceVelocity = 600;
 
-  feedback.SetReference(kReferenceVelocity);
-
-  double previous_velocity = sim.GetVelocity();
+  double previous_velocity = kInitialVelocity;
 
   while (feedback.ErrorWithin(error_tolerance) == false) {
-    double volts = feedforward.CalculateVoltage(kReferenceVelocity, 0.0) +
-                   feedback.Calculate(sim.GetVelocity());
+    double ff_volts = feedforward.CalculateVoltage(kReferenceVelocity, 0.0);
+    double fb_volts = feedback.Calculate(sim.GetVelocity(), kReferenceVelocity);
 
-    volts = std::clamp(volts, -12.0, 12.0);
+    if (direction(fb_volts) !=
+        direction(kReferenceVelocity - kInitialVelocity)) {
+      std::cout << "warn: overshot" << '\n';
+    }
+
+    std::cout << "ff_volts: " << ff_volts << '\n';
+    std::cout << "fb_volts: " << fb_volts << '\n';
+
+    double volts = std::clamp(ff_volts + fb_volts, -12.0, 12.0);
+
+    std::cout << "volts: " << volts << '\n';
 
     sim.SetVoltage(volts);
     sim.Update();
 
     double velocity = sim.GetVelocity();
 
-    std::cout << velocity << '\n';
+    std::cout << "velocity: " << velocity << '\n';
 
     previous_velocity = velocity;
 
     if (feedback.ErrorRateWithin(error_rate_tolerance) &&
         feedback.ErrorWithin(error_tolerance) == false) {
-      std::cout << "at steady state" << '\n';
+      std::cout << "error: at steady state" << '\n';
+      break;
     }
   }
 }
