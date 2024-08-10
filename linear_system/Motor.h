@@ -1,17 +1,17 @@
 #pragma once
 
 struct Motor {
-  double Kt;
-  double Kv;
-  double R;
+  double Kt_;
+  double Kv_;
+  double R_;
 
   Motor(double nominal_voltage, double stall_torque, double stall_current,
         double free_speed_rpm, double free_current) {
     double free_speed_rad_per_sec = (free_speed_rpm / 60.0) * 2 * 3.14159;
 
-    R = nominal_voltage / stall_current;
-    Kv = free_speed_rad_per_sec / (nominal_voltage - R * free_current);
-    Kt = stall_torque / stall_current;
+    R_ = nominal_voltage / stall_current;
+    Kv_ = free_speed_rad_per_sec / (nominal_voltage - R_ * free_current);
+    Kt_ = stall_torque / stall_current;
   }
 };
 

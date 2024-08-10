@@ -2,35 +2,35 @@
 
 #include "EigenCore.h"
 #include "LinearSystem.h"
+
 template <int States, int Inputs, int Outputs> class LinearSystemSim {
 public:
   LinearSystemSim(const LinearSystem<States, Inputs, Outputs> &system)
-      : m_plant(system) {
+      : plant_(system) {
 
-    m_x = Vectord<States>::Zero();
-    m_y = Vectord<Outputs>::Zero();
-    m_u = Vectord<Inputs>::Zero();
+    x_ = Vectord<States>::Zero();
+    y_ = Vectord<Outputs>::Zero();
+    u_ = Vectord<Inputs>::Zero();
   }
 
-  // TODO Use units
   void Update(double dt) {
-    m_x = m_plant.CalculateX(m_x, m_u, dt);
-    m_y = m_plant.CalculateY(m_x, m_u);
+    x_ = plant_.CalculateX(x_, u_, dt);
+    y_ = plant_.CalculateY(x_, u_);
   }
 
-  const Vectord<Outputs> &GetOutput() const { return m_y; }
+  const Vectord<Outputs> &GetOutput() const { return y_; }
 
-  double GetOutput(int row) const { return m_y(row); }
+  double GetOutput(int row) const { return y_(row); }
 
-  void SetInput(const Vectord<Inputs> &u) { m_u = u; }
+  void SetInput(const Vectord<Inputs> &u) { u_ = u; }
 
-  void SetInput(int row, double value) { m_u(row) = value; }
+  void SetInput(int row, double value) { u_(row) = value; }
 
-  void SetState(const Vectord<States> &state) { m_x = state; }
+  void SetState(const Vectord<States> &state) { x_ = state; }
 
 private:
-  LinearSystem<States, Inputs, Outputs> m_plant;
-  Vectord<States> m_x;
-  Vectord<Outputs> m_y;
-  Vectord<Inputs> m_u;
+  LinearSystem<States, Inputs, Outputs> plant_;
+  Vectord<States> x_;
+  Vectord<Outputs> y_;
+  Vectord<Inputs> u_;
 };

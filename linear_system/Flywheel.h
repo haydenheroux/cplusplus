@@ -5,15 +5,16 @@
 
 struct Flywheel {
   Flywheel(const Motor &motor, double gearing, double moment_of_inertia)
-      : motor(motor), gearing(gearing), moment_of_inertia(moment_of_inertia) {}
+      : motor_(motor), gearing_(gearing),
+        moment_of_intertia_(moment_of_inertia) {}
 
   LinearSystem<1, 1, 1> GetLinearSystem() const {
     Matrixd<1, 1> A;
-    A << (-1 * gearing * gearing * motor.Kt) /
-             (motor.Kv * motor.R * moment_of_inertia);
+    A << (-1 * gearing_ * gearing_ * motor_.Kt_) /
+             (motor_.Kv_ * motor_.R_ * moment_of_intertia_);
 
     Matrixd<1, 1> B;
-    B << (gearing * motor.Kt) / (motor.R * moment_of_inertia);
+    B << (gearing_ * motor_.Kt_) / (motor_.R_ * moment_of_intertia_);
 
     Matrixd<1, 1> C;
     C << 1;
@@ -24,26 +25,26 @@ struct Flywheel {
     return LinearSystem<1, 1, 1>{A, B, C, D};
   }
 
-  const Motor &motor;
-  const double gearing;
-  const double moment_of_inertia;
+  Motor motor_;
+  double gearing_;
+  double moment_of_intertia_;
 };
 
 class FlywheelSim {
 public:
   FlywheelSim(const Flywheel &flywheel, double dt)
-      : flywheel(flywheel), dt(dt), sim(flywheel.GetLinearSystem()) {}
+      : flywheel_(flywheel), dt_(dt), sim_(flywheel.GetLinearSystem()) {}
 
-  void SetVoltage(double volts) { sim.SetInput(0, volts); }
+  void SetVoltage(double volts) { sim_.SetInput(0, volts); }
 
-  void Update() { sim.Update(dt); };
+  void Update() { sim_.Update(dt_); };
 
-  double GetVelocity() const { return sim.GetOutput(0); };
+  double GetVelocity() const { return sim_.GetOutput(0); };
 
-  double GetMotorVelocity() const { return GetVelocity() * flywheel.gearing; }
+  double GetMotorVelocity() const { return GetVelocity() * flywheel_.gearing_; }
 
 public:
-  const Flywheel &flywheel;
-  const double dt;
-  LinearSystemSim<1, 1, 1> sim;
+  Flywheel flywheel_;
+  double dt_;
+  LinearSystemSim<1, 1, 1> sim_;
 };

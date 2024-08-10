@@ -13,26 +13,26 @@ public:
                const Matrixd<States, Inputs> &B,
                const Matrixd<Outputs, States> &C,
                const Matrixd<Outputs, Inputs> &D)
-      : m_A(A), m_B(B), m_C(C), m_D(D) {}
+      : A_(A), B_(B), C_(C), D_(D) {}
 
   // TODO Use units
   StateVector CalculateX(const StateVector &x, const InputVector &u,
                          double dt) const {
-    Matrixd<States, States> d_A;
-    Matrixd<States, States> d_B;
+    Matrixd<States, States> discreteA;
+    Matrixd<States, States> discreteB;
 
-    DiscretizeAB(m_A, m_B, dt, &d_A, &d_B);
+    DiscretizeAB(A_, B_, dt, &discreteA, &discreteB);
 
-    return d_A * x + d_B * u;
+    return discreteA * x + discreteB * u;
   }
 
   OutputVector CalculateY(const StateVector &x, const InputVector &u) const {
-    return m_C * x + m_D * u;
+    return C_ * x + D_ * u;
   }
 
 private:
-  Matrixd<States, States> m_A;
-  Matrixd<States, Inputs> m_B;
-  Matrixd<Outputs, States> m_C;
-  Matrixd<Outputs, Inputs> m_D;
+  Matrixd<States, States> A_;
+  Matrixd<States, Inputs> B_;
+  Matrixd<Outputs, States> C_;
+  Matrixd<Outputs, Inputs> D_;
 };

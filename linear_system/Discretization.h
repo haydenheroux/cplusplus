@@ -3,7 +3,6 @@
 #include "EigenCore.h"
 #include <unsupported/Eigen/MatrixFunctions>
 
-// TODO Use units
 template <int States, int Inputs>
 void DiscretizeAB(const Matrixd<States, States> &contA,
                   const Matrixd<States, Inputs> &contB, double dt,
