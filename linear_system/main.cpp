@@ -1,29 +1,31 @@
 #include "Flywheel.h"
 #include "Motor.h"
+#include "MotorFeedforward.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 
 int main() {
-  const Flywheel flywheel{k775Pro, 1.0, 0.00032};
+  Flywheel flywheel{k775Pro, 1.0, 0.00032};
 
   FlywheelSim sim{flywheel, 0.02};
 
-  const double kReference = 1500; // radians per second
-  const double kV = 0.0060861185; // volts per radian per second
+  MotorFeedforward ff{0.0060861185, 0.0};
+
+  const double kReferenceVelocity = 1500; // radians per second
 
   double previous_velocity = sim.GetVelocity();
 
   while (true) {
-    double error = kReference - previous_velocity;
+    double error = kReferenceVelocity - previous_velocity;
 
     if (fabs(error) < 1e-3) {
       break;
     }
 
-    double ff = kReference * kV;
+    double volts = ff.CalculateVoltage(kReferenceVelocity, 0.0);
 
-    double volts = std::clamp(ff, -12.0, 12.0);
+    volts = std::clamp(volts, -12.0, 12.0);
 
     sim.SetVoltage(volts);
     sim.Update();
