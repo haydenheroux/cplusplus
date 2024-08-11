@@ -3,10 +3,9 @@
 #include "MotorFeedforward.h"
 #include "PDController.h"
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 
-inline constexpr double direction(double d) { return d / fabs(d); }
+int direction(double d) { return (0 < d) - (d < 0); }
 
 int main() {
   const double kDt = 0.02;
