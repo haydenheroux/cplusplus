@@ -35,7 +35,10 @@ public:
   FlywheelSim(const Flywheel &flywheel, double dt)
       : flywheel_(flywheel), dt_(dt), sim_(flywheel.GetLinearSystem()) {}
 
-  void SetVoltage(double volts) { sim_.SetInput(0, volts); }
+  void SetVoltage(double volts) {
+    volts = std::clamp(volts, -12.0, 12.0);
+    sim_.SetInput(0, volts);
+  }
 
   void Update() { sim_.Update(dt_); };
 
