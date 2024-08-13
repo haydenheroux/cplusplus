@@ -13,6 +13,10 @@ struct Motor {
     Kv_ = free_speed_rad_per_sec / (nominal_voltage - R_ * free_current);
     Kt_ = stall_torque / stall_current;
   }
+
+  Motor(double Kt, double Kv, double R) : Kt_(Kt), Kv_(Kv), R_(R) {}
+
+  Motor operator*(int n) const { return Motor{Kt_, Kv_, R_ / n}; }
 };
 
 const Motor k775Pro{12.0, 0.71, 134, 18730, 0.7};
